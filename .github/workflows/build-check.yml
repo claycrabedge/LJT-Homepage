@@ -31,3 +31,29 @@ jobs:
         run: bundle exec jekyll build --baseurl "/LJT-Homepage"
         env:
           JEKYLL_ENV: production
+      - name: Verify generated content
+        run: |
+          test -f _site/index.html
+          test -f _site/publications/index.html
+          grep -q "Junteng Liu" _site/index.html
+          grep -q "SynLogic" _site/index.html
+          grep -q "On the Perception Bottleneck of VLMs for Chart Understanding" _site/index.html
+          grep -q "On the Universal Truthfulness Hyperplane Inside LLMs" _site/index.html
+          grep -q "In-Context Sharpness as Alerts" _site/index.html
+          grep -q "C-Eval" _site/index.html
+          grep -q "Composing Parameter-Efficient Modules with Arithmetic Operations" _site/index.html
+          grep -q "Zhiyuan Honor Scholarship" _site/index.html
+          grep -q "jliugi@connect.ust.hk" _site/index.html
+          grep -q "Vicent0205" _site/index.html
+          grep -q "junteng88716710" _site/index.html
+          test -f _site/publication/synlogic/index.html
+          test -f _site/publication/perception-bottleneck-vlms/index.html
+          test -f _site/publication/universal-truthfulness-hyperplane/index.html
+          test -f _site/publication/in-context-sharpness/index.html
+          test -f _site/publication/c-eval/index.html
+          test -f _site/publication/composing-parameter-efficient-modules/index.html
+          if grep -R "Paper Title Number\|Academic Pages is a ready-to-fork\|Short biography for the left-hand sidebar" _site; then
+            echo "Template placeholder content remains in the built site."
+            exit 1
+          fi
+          echo "Generated site content verification passed."
